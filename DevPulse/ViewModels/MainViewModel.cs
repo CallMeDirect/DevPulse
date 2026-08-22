@@ -38,6 +38,12 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     public partial double DiskUsagePercent { get; set; }
+    
+    [ObservableProperty]
+    public partial string? ErrorMessage { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsMonitoring { get; set; }
 
     #endregion
     
@@ -55,6 +61,26 @@ public partial class MainViewModel : ViewModelBase
     private static double ConvertBytesToGigabytes(double bytes)
     {
         return bytes / BytesPerGigabyte;
+    }
+    
+    private async Task TryLoadStatsAsync(
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await LoadStatsAsync(cancellationToken);
+            ErrorMessage = null;
+        }
+        catch (OperationCanceledException)
+            when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            ErrorMessage =
+                $"Monitoring error: {exception.Message}";
+        }
     }
     
     private async Task LoadStatsAsync(
@@ -102,14 +128,23 @@ public partial class MainViewModel : ViewModelBase
     public async Task StartMonitoringAsync(
         CancellationToken cancellationToken)
     {
-        await LoadStatsAsync(cancellationToken);
-
-        using var timer = new PeriodicTimer(
-            TimeSpan.FromSeconds(1));
-
-        while (await timer.WaitForNextTickAsync(cancellationToken))
+        IsMonitoring = true;
+        
+        try
         {
-            await LoadStatsAsync(cancellationToken);
+            await TryLoadStatsAsync(cancellationToken);
+
+            using var timer = new PeriodicTimer(
+                TimeSpan.FromSeconds(1));
+
+            while (await timer.WaitForNextTickAsync(cancellationToken))
+            {
+                await TryLoadStatsAsync(cancellationToken);
+            }
+        }
+        finally
+        {
+            IsMonitoring = false;
         }
     }
     

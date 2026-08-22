@@ -16,7 +16,7 @@
 		<vm:MainViewModel />
 	</Design.DataContext>
 
-	<Grid RowDefinitions="Auto, Auto">
+	<Grid RowDefinitions="Auto, Auto, Auto">
 		<!-- Header -->
 		<TextBlock Text="{Binding Greeting}"
 			 HorizontalAlignment="Center"
@@ -40,6 +40,14 @@
                  Value="{Binding DiskUsage}"
                  Percentage="{Binding DiskUsagePercent}"/>
 		</Grid>
+		
+		<!-- Monitoring errors display -->
+		<TextBlock
+			Grid.Row="2"
+			Text="{Binding ErrorMessage}"
+			Foreground="Red"
+			HorizontalAlignment="Center"
+			Margin="10" />
 	</Grid>
 
 </Window>
