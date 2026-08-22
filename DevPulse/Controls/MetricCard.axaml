@@ -14,6 +14,10 @@
 			<TextBlock Text="{Binding Value, ElementName=root}"
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center" />
+			<ProgressBar
+				Minimum="0"
+				Maximum="100"
+				Value="{Binding Percentage, ElementName=root}" />
 		</StackPanel>
 
 	</Border>

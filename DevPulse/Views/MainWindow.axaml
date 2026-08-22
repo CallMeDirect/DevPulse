@@ -27,15 +27,18 @@
 			  ColumnDefinitions="*, *, *">
 			<controls:MetricCard 
 				Title="CPU"
-			    Value="{Binding CpuUsage}"/>
+			    Value="{Binding CpuUsage}"
+				Percentage="{Binding CpuUsagePercent}"/>
 			
 			<controls:MetricCard Grid.Column="1" 
 				Title="RAM"
-				Value="{Binding MemoryUsage}"/>
+				Value="{Binding MemoryUsage}"
+				Percentage="{Binding MemoryUsagePercent}"/>
 			
 			<controls:MetricCard Grid.Column="2" 
                  Title="DISK"
-                 Value="{Binding DiskUsage}"/>
+                 Value="{Binding DiskUsage}"
+                 Percentage="{Binding DiskUsagePercent}"/>
 		</Grid>
 	</Grid>
 

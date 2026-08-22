@@ -1,8 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevPulse.Controls
 {
@@ -11,7 +8,9 @@ namespace DevPulse.Controls
         public static readonly StyledProperty<string> TitleProperty =
             AvaloniaProperty.Register<MetricCard, string>(nameof(Title), defaultValue: "CPU");
         public static readonly StyledProperty<string> ValueProperty =
-            AvaloniaProperty.Register<MetricCard, string>(nameof(Value), defaultValue: "67%");
+            AvaloniaProperty.Register<MetricCard, string>(nameof(Value), defaultValue: "0%");
+        public static readonly StyledProperty<double> PercentageProperty =
+            AvaloniaProperty.Register<MetricCard, double>(nameof(Percentage), defaultValue: 0);
 
         public string Title
         {
@@ -23,6 +22,12 @@ namespace DevPulse.Controls
         {
             get => GetValue(ValueProperty);
             set => SetValue(ValueProperty, value);
+        }
+        
+        public double Percentage
+        {
+            get => GetValue(PercentageProperty);
+            set => SetValue(PercentageProperty, value);
         }
 
         public MetricCard()

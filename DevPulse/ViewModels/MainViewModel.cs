@@ -29,6 +29,15 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     public partial string DiskUsage { get; set; } = "Loading...";
+    
+    [ObservableProperty]
+    public partial double CpuUsagePercent { get; set; }
+
+    [ObservableProperty]
+    public partial double MemoryUsagePercent { get; set; }
+
+    [ObservableProperty]
+    public partial double DiskUsagePercent { get; set; }
 
     #endregion
     
@@ -53,6 +62,25 @@ public partial class MainViewModel : ViewModelBase
     {
         var stats =
             await _systemMonitorService.GetStatsAsync(cancellationToken);
+        
+        CpuUsagePercent = stats.CpuUsagePercent;
+
+        MemoryUsagePercent =
+            stats.MemoryTotalBytes == 0
+                ? 0
+                : stats.MemoryUsedBytes
+                  / stats.MemoryTotalBytes
+                  * 100;
+
+        var diskUsedBytes =
+            stats.DiskTotalBytes - stats.DiskFreeBytes;
+
+        DiskUsagePercent =
+            stats.DiskTotalBytes == 0
+                ? 0
+                : diskUsedBytes
+                  / stats.DiskTotalBytes
+                  * 100;
 
         var usedMemoryGb = ConvertBytesToGigabytes(stats.MemoryUsedBytes);
         
