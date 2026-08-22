@@ -1,2 +1,11 @@
-.vs
+# IDE
+.vs/
 .idea/
+
+# .NET build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific IDE settings
+*.user
+*.suo
