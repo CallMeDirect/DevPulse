@@ -3,17 +3,23 @@
 			x:Class="DevPulse.Controls.MetricCard"
 			x:Name="root">
 	<Border Grid.Column="0"
-					Background="Gray"
+					Background="#20242B"
 					CornerRadius="8"
 					Padding="10"
 					Margin="10">
 		<StackPanel Spacing="10">
-			<TextBlock Text="{Binding Title, ElementName=root}"
-				HorizontalAlignment="Center"
-				VerticalAlignment="Center" />
-			<TextBlock Text="{Binding Value, ElementName=root}"
-				HorizontalAlignment="Center"
-				VerticalAlignment="Center" />
+			<StackPanel.Styles>
+				<Style Selector="TextBlock">
+					<Setter Property="HorizontalAlignment"
+					        Value="Center"/>
+					<Setter Property="VerticalAlignment"
+					        Value="Center"/>
+					<Setter Property="Foreground"
+					        Value="White"/>
+				</Style>
+			</StackPanel.Styles>
+			<TextBlock Text="{Binding Title, ElementName=root}" />
+			<TextBlock Text="{Binding Value, ElementName=root}" />
 			<ProgressBar
 				Minimum="0"
 				Maximum="100"

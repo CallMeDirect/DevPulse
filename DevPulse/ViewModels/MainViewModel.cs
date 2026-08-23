@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using DevPulse.Services;
 
@@ -13,6 +14,8 @@ public partial class MainViewModel : ViewModelBase
     private readonly ISystemMonitorService _systemMonitorService;
 
     private const double BytesPerGigabyte = 1024d * 1024 * 1024;
+    
+    private const int MaxHistoryPoints = 60;
     
     #endregion
 
@@ -43,7 +46,11 @@ public partial class MainViewModel : ViewModelBase
     public partial string? ErrorMessage { get; set; }
 
     [ObservableProperty]
-    public partial bool IsMonitoring { get; set; }
+    public partial bool IsMonitoring { get; private set; }
+    
+    public ObservableCollection<double> CpuHistory { get; } = [];
+
+    public ObservableCollection<double> MemoryHistory { get; } = [];
 
     #endregion
     
@@ -57,6 +64,18 @@ public partial class MainViewModel : ViewModelBase
     #endregion
     
     #region Private methods
+    
+    private static void AddHistoryPoint(
+        ObservableCollection<double> history,
+        double value)
+    {
+        history.Add(value);
+
+        if (history.Count > MaxHistoryPoints)
+        {
+            history.RemoveAt(0);
+        }
+    }
     
     private static double ConvertBytesToGigabytes(double bytes)
     {
@@ -115,6 +134,9 @@ public partial class MainViewModel : ViewModelBase
         var freeDiskGb = ConvertBytesToGigabytes(stats.DiskFreeBytes);
 
         var totalDiskGb = ConvertBytesToGigabytes(stats.DiskTotalBytes);
+        
+        AddHistoryPoint(CpuHistory, CpuUsagePercent);
+        AddHistoryPoint(MemoryHistory, MemoryUsagePercent);
 
         CpuUsage = $"{stats.CpuUsagePercent:F1}%";
         MemoryUsage = $"{usedMemoryGb:F1} / {totalMemoryGb:F1} GB used";

@@ -38,6 +38,12 @@ public sealed class MainViewModelTests
         Assert.Equal(25, viewModel.CpuUsagePercent);
         Assert.Equal(50, viewModel.MemoryUsagePercent);
         Assert.Equal(60, viewModel.DiskUsagePercent);
+        
+        Assert.Single(viewModel.CpuHistory);
+        Assert.Single(viewModel.MemoryHistory);
+
+        Assert.Equal(25, viewModel.CpuHistory[0]);
+        Assert.Equal(50, viewModel.MemoryHistory[0]);
 
         cancellationTokenSource.Cancel();
 
