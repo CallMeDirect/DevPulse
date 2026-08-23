@@ -12,9 +12,12 @@
 
 	<Grid RowDefinitions="Auto, Auto, *, Auto">
 		<!-- Header -->
-		<TextBlock Text="{Binding Greeting}"
+		<TextBlock Text="{Binding HeaderText}"
 			 HorizontalAlignment="Center"
-			 VerticalAlignment="Center" />
+			 VerticalAlignment="Center"
+			 FontSize="24"
+			 FontWeight="Bold"
+			 Margin="10"/>
 
 		<!-- Usage info -->
 		<Grid Grid.Row="1"

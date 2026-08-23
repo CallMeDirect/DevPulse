@@ -22,7 +22,7 @@ public partial class MainViewModel : ViewModelBase
     #region Public properties
 
     [ObservableProperty]
-    public partial string Greeting { get; set; } = "DevPulse";
+    public partial string HeaderText { get; set; } = "DevPulse";
 
     [ObservableProperty]
     public partial string CpuUsage { get; set; } = "0%";
