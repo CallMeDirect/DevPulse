@@ -14,6 +14,11 @@ namespace DevPulse;
     Url = "https://docs.avaloniaui.net/docs/concepts/view-locator")]
 public class ViewLocator : IDataTemplate
 {
+    #region Public methods
+
+    /// <summary>Creates the view whose name corresponds to the supplied view-model type.</summary>
+    /// <param name="param">The view model for which a view should be created.</param>
+    /// <returns>The matching view, a fallback message, or <see langword="null"/> for null input.</returns>
     public Control? Build(object? param)
     {
         if (param is null)
@@ -30,8 +35,13 @@ public class ViewLocator : IDataTemplate
         return new TextBlock { Text = "Not Found: " + name };
     }
 
+    /// <summary>Determines whether this locator can build a view for the supplied object.</summary>
+    /// <param name="data">The candidate data object.</param>
+    /// <returns><see langword="true"/> for DevPulse view models; otherwise, <see langword="false"/>.</returns>
     public bool Match(object? data)
     {
         return data is ViewModelBase;
     }
+
+    #endregion
 }

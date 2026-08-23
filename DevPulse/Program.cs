@@ -3,16 +3,21 @@ using System;
 
 namespace DevPulse;
 
-sealed class Program
+/// <summary>
+/// Provides the process entry point and Avalonia application configuration.
+/// </summary>
+internal sealed class Program
 {
-    // Initialization code. Don't use any Avalonia, third-party APIs or any
-    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-    // yet and stuff might break.
+    #region Public methods
+
+    /// <summary>Starts DevPulse with the classic desktop application lifetime.</summary>
+    /// <param name="args">Command-line arguments supplied to the application.</param>
     [STAThread]
     public static void Main(string[] args) => BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
 
-    // Avalonia configuration, don't remove; also used by visual designer.
+    /// <summary>Builds the Avalonia application used by the runtime and visual designer.</summary>
+    /// <returns>A configured Avalonia application builder.</returns>
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
@@ -21,4 +26,6 @@ sealed class Program
 #endif
             .WithInterFont()
             .LogToTrace();
+
+    #endregion
 }

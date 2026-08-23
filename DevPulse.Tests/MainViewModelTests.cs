@@ -3,8 +3,15 @@ using DevPulse.ViewModels;
 
 namespace DevPulse.Tests;
 
+/// <summary>
+/// Verifies resource projection, monitoring lifetime, and failure handling in the main view model.
+/// </summary>
 public sealed class MainViewModelTests
 {
+    #region Public test methods
+
+    /// <summary>Verifies that a successful sample updates percentages and history collections.</summary>
+    /// <returns>A task representing the asynchronous test.</returns>
     [Fact]
     public async Task StartMonitoringAsync_UpdatesResourcePercentages()
     {
@@ -53,6 +60,8 @@ public sealed class MainViewModelTests
         Assert.False(viewModel.IsMonitoring);
     }
     
+    /// <summary>Verifies that a service failure is exposed without terminating the monitoring loop.</summary>
+    /// <returns>A task representing the asynchronous test.</returns>
     [Fact]
     public async Task StartMonitoringAsync_WhenServiceFails_SetsErrorMessage()
     {
@@ -88,4 +97,6 @@ public sealed class MainViewModelTests
 
         Assert.False(viewModel.IsMonitoring);
     }
+
+    #endregion
 }

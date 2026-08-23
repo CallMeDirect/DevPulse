@@ -58,7 +58,7 @@
 
 					<controls:HistoryChart
 						Grid.Row="1"
-						Height="140"
+						MinHeight="140"
 						Values="{Binding CpuHistory}" />
 				</Grid>
 			</Border>
