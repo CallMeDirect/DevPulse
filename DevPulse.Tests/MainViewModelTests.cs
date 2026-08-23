@@ -46,4 +46,40 @@ public sealed class MainViewModelTests
 
         Assert.False(viewModel.IsMonitoring);
     }
+    
+    [Fact]
+    public async Task StartMonitoringAsync_WhenServiceFails_SetsErrorMessage()
+    {
+        // Arrange
+        var exception =
+            new InvalidOperationException("Test failure");
+
+        var service =
+            new FakeSystemMonitorService(exception);
+
+        var viewModel =
+            new MainViewModel(service);
+
+        using var cancellationTokenSource =
+            new CancellationTokenSource();
+
+        // Act
+        var monitoringTask =
+            viewModel.StartMonitoringAsync(
+                cancellationTokenSource.Token);
+
+        // Assert
+        Assert.True(viewModel.IsMonitoring);
+
+        Assert.Equal(
+            "Monitoring error: Test failure",
+            viewModel.ErrorMessage);
+
+        cancellationTokenSource.Cancel();
+
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            () => monitoringTask);
+
+        Assert.False(viewModel.IsMonitoring);
+    }
 }
