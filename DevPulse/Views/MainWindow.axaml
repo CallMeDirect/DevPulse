@@ -59,7 +59,8 @@
 					<controls:HistoryChart
 						Grid.Row="1"
 						MinHeight="140"
-						Values="{Binding CpuHistory}" />
+						Values="{Binding CpuHistory}"
+						LineBrush="#2196F3"/>
 				</Grid>
 			</Border>
 
@@ -77,8 +78,9 @@
 
 					<controls:HistoryChart
 						Grid.Row="1"
-						Height="140"
-						Values="{Binding MemoryHistory}" />
+						MinHeight="140"
+						Values="{Binding MemoryHistory}"
+						LineBrush="#9C6ADE" />
 				</Grid>
 			</Border>
 		</Grid>

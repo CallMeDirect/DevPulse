@@ -21,6 +21,11 @@ public sealed class HistoryChart : Control
             AvaloniaProperty.Register<
                 HistoryChart,
                 IEnumerable<double>?>(nameof(Values));
+    
+    public static readonly StyledProperty<IBrush> LineBrushProperty =
+        AvaloniaProperty.Register<HistoryChart, IBrush>(
+            nameof(LineBrush),
+            Brushes.DodgerBlue);
 
     #endregion
 
@@ -32,6 +37,12 @@ public sealed class HistoryChart : Control
         get => GetValue(ValuesProperty);
         set => SetValue(ValuesProperty, value);
     }
+    
+    public IBrush LineBrush
+    {
+        get => GetValue(LineBrushProperty);
+        set => SetValue(LineBrushProperty, value);
+    }
 
     #endregion
 
@@ -40,7 +51,9 @@ public sealed class HistoryChart : Control
     /// <summary>Registers the chart properties that invalidate its rendering.</summary>
     static HistoryChart()
     {
-        AffectsRender<HistoryChart>(ValuesProperty);
+        AffectsRender<HistoryChart>(
+            ValuesProperty,
+            LineBrushProperty);
     }
 
     #endregion
@@ -93,7 +106,7 @@ public sealed class HistoryChart : Control
         if (width <= 0 || height <= 0)
             return;
 
-        var pen = new Pen(Brushes.DodgerBlue, 2);
+        var pen = new Pen(LineBrush, 2);
 
         for (var index = 1; index < values.Length; index++)
         {
